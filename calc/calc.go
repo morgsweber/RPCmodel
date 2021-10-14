@@ -5,7 +5,14 @@ type Args struct {
 	A, B float64
 }
 
-type Arith float64
+/*
+	O array memory eh privado do objeto Arith, portanto, o unico modo de acessa-lo eh
+	atraves dos metodos exportaveis Store e Load
+	Este array pode ser de qualquer tipo, inclusive tipos criados neste arquivo
+*/
+type Arith struct {
+	memory [10]float64
+}
 
 /*
 	Metodos devem:
@@ -33,5 +40,17 @@ func (a *Arith) Mult(args *Args, reply *float64) error {
 
 func (a *Arith) Div(args *Args, reply *float64) error {
 	*reply = args.A / args.B
+	return nil
+}
+
+func (a *Arith) Store(args *Args, reply *float64) error {
+	var pos int = int(args.A)
+	a.memory[pos] = args.B
+	return nil
+}
+
+func (a *Arith) Load(args *Args, reply *float64) error {
+	var pos int = int(args.A)
+	*reply = a.memory[pos]
 	return nil
 }

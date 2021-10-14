@@ -55,16 +55,4 @@ func main() {
         log.Fatal("Arith error: ", err)
     }
     fmt.Printf("Arith: %f-%f=%f\n", args.A, args.B, reply)
-
-    err = c.Call("Arith.Store", args, &reply)
-    if err != nil {
-        log.Fatal("Arith error: ", err)
-    }
-    fmt.Printf("Arith: Stored %f in position %f\n", args.B, args.A)
-
-    err = c.Call("Arith.Load", args, &reply)
-    if err != nil {
-        log.Fatal("Arith error: ", err)
-    }
-    fmt.Printf("Arith: Loaded %f\n", reply)
 }
