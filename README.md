@@ -16,3 +16,4 @@ Inicializem o cliente em outro terminal utilizando: go run <cliente de sua escol
 O client_v4.go irá reconhecer comandos no formato <Operação> <Número> <Número>. Exemplo: Mult 2 4
 
 As funções de Load e Store possuem a seguinte sintaxe: <Operação> <Posição> <Número>.
+
