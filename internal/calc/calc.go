@@ -20,7 +20,7 @@ type Arith struct {
 	-Possuir dois parametros de entrada. O primeiro pode ser qualquer tipo
 	exportavel ou tipo nativo de go. O segundo de ser obrigatoriamente
 	um ponteiro. O segundo argumento eh usado para o retorno do metodo.
-	-Retornar um erro. Se for retornado algo alem de nil o cliente recebera 
+	-Retornar um erro. Se for retornado algo alem de nil o cliente recebera
 	apenas o erro, sem o ponteiro de reply
 */
 func (a *Arith) Sum(args *Args, reply *float64) error {

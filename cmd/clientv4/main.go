@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"../calc"
+	"ppd/t2/internal/calc"
 )
 
 func main() {
