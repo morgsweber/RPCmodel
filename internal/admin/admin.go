@@ -14,6 +14,8 @@ type Bank struct {
 	memory [100]Account
 }
 
+var pos int = 0;
+
 
 /*
 	Return an error. If something return besides nil the client will receive just the error, without the reply pointer
@@ -26,7 +28,8 @@ Open:
 */
 func (bank *Bank) Open(Holder string, reply *float64) error {
 	//Account A
-	//a.memory[pos] = 
+//	a.memory[pos] = 
+	//pos := pos + 1;
 	return nil
 }
 

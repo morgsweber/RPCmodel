@@ -21,7 +21,6 @@ func main() {
 
 	//Variavel para receber os resultados
 	var reply float64
-	var repl string
 	//Estrutura para enviar os numeros
 	args := calc.Args{A: 3, B: 4}
 
@@ -33,18 +32,11 @@ func main() {
 	   -Primeiro argumento do metodo
 	   -Segundo argumento do metodo(ponteiro para receber a resposta)
 	*/
-	err = c.Call("Bank.Open", "De Rose", &reply)
-	if err != nil {
-		log.Fatal("Arith error: ", err)
-	}
-	fmt.Printf("Arith: %f*%f=%f\n", args.A, args.B, reply)
-
 	err = c.Call("Arith.Mult", args, &reply)
 	if err != nil {
 		log.Fatal("Arith error: ", err)
 	}
 	fmt.Printf("Arith: %f*%f=%f\n", args.A, args.B, reply)
-
 
 	err = c.Call("Arith.Div", args, &reply)
 	if err != nil {
