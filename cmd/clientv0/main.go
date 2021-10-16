@@ -42,12 +42,12 @@ func main() {
 	if err != nil {
 		log.Fatal("Bank error: ", err)
 	}
-	fmt.Printf("Bank:\n", reply)
+	fmt.Printf("Bank:\n%s\n", reply)
 
 	err = c.Call("Bank.Close", acc, &reply)
 	if err != nil {
 		log.Fatal("Bank error: ", err)
 	}
-	fmt.Printf("Bank:\n", reply)
+	fmt.Printf("\nBank:\n", reply)
 
 }

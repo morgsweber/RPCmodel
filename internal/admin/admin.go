@@ -29,7 +29,7 @@ Open:
 
 	For know is with a generic agency.
 */
-func (bank *Bank) Open(holder string, reply string) error {
+func (bank *Bank) Open(holder string, reply *string) error {
 	A := Account{
 		Holder: holder,
 		Agency: "0001",
@@ -37,7 +37,7 @@ func (bank *Bank) Open(holder string, reply string) error {
 		Money: 0,
 	}
 	bank.memory[pos] = A
-	reply = "Holder: " + A.Holder + "\nAgency: " + A.Agency + "\nAccountNumber " +  string(pos) // add money here in the end
+	*reply = "Holder: " + A.Holder + "\nAgency: " + A.Agency + "\nAccountNumber " +  string(pos) // add money here in the end
 
 	return nil
 }
@@ -46,14 +46,14 @@ func (bank *Bank) Open(holder string, reply string) error {
 Close:
 	Is to close account and to do this the program receive the account and verify if the account is right
 */
-func (bank *Bank) Close(A *Account, reply string) error {
+func (bank *Bank) Close(A *Account, reply *string) error {
 	if A.Holder == bank.memory[A.AccountNumber].Holder{
 		bank.memory[A.AccountNumber].Holder = ""
 		bank.memory[A.AccountNumber].Agency = ""
 		bank.memory[A.AccountNumber].Money = 0
 		bank.memory[A.AccountNumber].AccountNumber = -1
 	}
-	reply = "Account is close"
+	//reply = "Account is close"
 	return nil
 }
 
@@ -62,11 +62,13 @@ func (bank *Bank) Close(A *Account, reply string) error {
 	Authenticates that accounts already exist, so will search in the memory.
 */
 
-
+/*
 // deposit some value in account A
 func (bank *Bank) Deposit(A *Account, deposit float64, reply float64) error {
 	A.Money = A.Money + deposit
 	//*reply = A.Money
 	return nil
+
 }
+*/
 
