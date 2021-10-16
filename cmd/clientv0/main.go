@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/rpc"
-	"ppd/t2/internal/calc"
+	"ppd/t2/internal/admin"
 )
 
 func main() {
@@ -20,9 +20,15 @@ func main() {
 	}
 
 	//Variavel para receber os resultados
-	var reply float64
+	var reply string
+	holder := "Cesar de Rose"
 	//Estrutura para enviar os numeros
-	args := calc.Args{A: 3, B: 4}
+	acc := admin.Account{
+		Holder: "Tester test",
+		Agency: "0001",
+		AccountNumber: 1,
+		Money: 0,
+	}
 
 	/*
 	   Call chama um metodo atrves da conexao estabelecida
@@ -32,27 +38,16 @@ func main() {
 	   -Primeiro argumento do metodo
 	   -Segundo argumento do metodo(ponteiro para receber a resposta)
 	*/
-	err = c.Call("Arith.Mult", args, &reply)
+	err = c.Call("Bank.Open", holder, &reply)
 	if err != nil {
-		log.Fatal("Arith error: ", err)
+		log.Fatal("Bank error: ", err)
 	}
-	fmt.Printf("Arith: %f*%f=%f\n", args.A, args.B, reply)
+	fmt.Printf("Bank:\n", reply)
 
-	err = c.Call("Arith.Div", args, &reply)
+	err = c.Call("Bank.Close", acc, &reply)
 	if err != nil {
-		log.Fatal("Arith error: ", err)
+		log.Fatal("Bank error: ", err)
 	}
-	fmt.Printf("Arith: %f/%f=%f\n", args.A, args.B, reply)
+	fmt.Printf("Bank:\n", reply)
 
-	err = c.Call("Arith.Sum", args, &reply)
-	if err != nil {
-		log.Fatal("Arith error: ", err)
-	}
-	fmt.Printf("Arith: %f+%f=%f\n", args.A, args.B, reply)
-
-	err = c.Call("Arith.Sub", args, &reply)
-	if err != nil {
-		log.Fatal("Arith error: ", err)
-	}
-	fmt.Printf("Arith: %f-%f=%f\n", args.A, args.B, reply)
 }
