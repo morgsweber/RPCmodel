@@ -52,8 +52,11 @@ func (bank *Bank) Close(A *Account, reply *string) error {
 		bank.memory[A.AccountNumber].Agency = ""
 		bank.memory[A.AccountNumber].Money = 0
 		bank.memory[A.AccountNumber].AccountNumber = -1
+		*reply = "Account is close"
+	}else{
+		*reply = "This account don't exist"
 	}
-	//reply = "Account is close"
+	
 	return nil
 }
 

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"fmt" // implements formatted I/O with functions analogous to C's printf and scanf.
 	"log"
-	"net/rpc"
+	"net/rpc" // remote procedure call
 	"ppd/t2/internal/admin"
 )
 
@@ -48,6 +48,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Bank error: ", err)
 	}
-	fmt.Printf("\nBank:\n", reply)
+	fmt.Printf("Bank:\n%s\n", reply)
 
 }
