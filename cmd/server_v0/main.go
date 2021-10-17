@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"net/rpc"
 
-	//"ppd/t2/internal/calc"
 	"ppd/t2/internal/admin"
 )
 
@@ -18,16 +17,6 @@ func main() {
 		eh necessario registra-lo utilizando a biblioteca rpc.
 		O registro gera um erro, sendo nil o caso em que o registro
 		foi um sucesso.
-	*/
-
-	/*
-	// uncomment if you want run calc
-	arith := new(calc.Arith)
-
-	err := rpc.Register(arith)
-	if err != nil {
-		log.Fatal("Error registering Arith ", err)
-	}
 	*/
 
 	bank := new(admin.Bank)

@@ -28,3 +28,5 @@ O client_v4.go irá reconhecer comandos no formato <Operação> <Número> <Núme
 
 As funções de Load e Store possuem a seguinte sintaxe: <Operação> <Posição> <Número>.
 
+
+

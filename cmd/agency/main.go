@@ -7,6 +7,10 @@ import (
 	"ppd/t2/internal/admin"
 )
 
+/**
+Processo Agência: Solicita abertura, autenticação e fechamento de contas e também pode solicitar depósito, retirada e consulta de saldo em conta existente. A abertura de conta, o depósito e a retirada devem ser operações garantidamente não-idempotentes (semântica de execução exactely once);
+*/
+
 func main() {
 	/*
 	   Inicializa o cliente na porta 4040 do localhost
@@ -39,62 +43,16 @@ func main() {
 	   -Primeiro argumento do metodo
 	   -Segundo argumento do metodo(ponteiro para receber a resposta)
 	*/
-	// Test all methods of admin
 	err = c.Call("Bank.Open", holder, &reply)
 	if err != nil {
 		log.Fatal("Bank error: ", err)
 	}
-	fmt.Printf("Bank:\n%s\n\n", reply)
+	fmt.Printf("Bank:\n%s\n", reply)
 
 	err = c.Call("Bank.Close", acc, &reply)
 	if err != nil {
 		log.Fatal("Bank error: ", err)
 	}
-	fmt.Printf("Bank:\n%s\n\n", reply)
-
-	err = c.Call("Bank.Authenticate", acc, &reply)
-	if err != nil {
-		log.Fatal("Bank error: ", err)
-	}
-	fmt.Printf("Bank:\n%s\n\n", reply)
-
-	acc = admin.Account{
-		Holder:        "Cesar de Rose",
-		Agency:        "0001",
-		AccountNumber: 1,
-		Money:         50,
-	}
-
-	err = c.Call("Bank.Sack", acc, &reply)
-	if err != nil {
-		log.Fatal("Bank error: ", err)
-	}
-	fmt.Printf("Bank:\n%s\n\n", reply)
-
-	acc = admin.Account{
-		Holder:        "Cesar de Rose",
-		Agency:        "0001",
-		AccountNumber: 1,
-		Money:         100,
-	}
-
-	err = c.Call("Bank.Deposit", acc, &reply)
-	if err != nil {
-		log.Fatal("Bank error: ", err)
-	}
-	fmt.Printf("Bank:\n%s\n\n", reply)
-
-	acc = admin.Account{
-		Holder:        "Cesar de Rose",
-		Agency:        "0001",
-		AccountNumber: 1,
-		Money:         50,
-	}
-
-	err = c.Call("Bank.Sack", acc, &reply)
-	if err != nil {
-		log.Fatal("Bank error: ", err)
-	}
-	fmt.Printf("Bank:\n%s\n\n", reply)
+	fmt.Printf("Bank:\n%s\n", reply)
 
 }
