@@ -30,3 +30,18 @@ As funções de Load e Store possuem a seguinte sintaxe: <Operação> <Posição
 
 
 
+
+Open Account:
+Open <User name>
+
+Authenticate Account:
+Authenticate <Number account>
+
+Close Account: 
+Close <Number account>
+
+Sack:
+Sack <Number account> <Agency> <Value>
+
+
+

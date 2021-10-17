@@ -28,7 +28,7 @@ Open:
 
 	For know is with a generic agency.
 */
-func (bank *Bank) Open(holder string, reply *string) error {
+/*func (bank *Bank) Open(holder string, reply *string) error {
 	A := Account{
 		Holder:        holder,
 		Agency:        "0001",
@@ -37,6 +37,13 @@ func (bank *Bank) Open(holder string, reply *string) error {
 	}
 	bank.memory[pos] = A
 	*reply = "Holder: " + A.Holder + "\nAgency: " + A.Agency + "\nAccountNumber " + string(pos) // add money here in the end
+
+	return nil
+}*/
+
+func (bank *Bank) Open(A Account, reply *string) error {
+	bank.memory[pos] = A
+	*reply = "Holder: " + A.Holder + "\nAgency: " + A.Agency + "\nAccountNumber " + string(pos)
 
 	return nil
 }

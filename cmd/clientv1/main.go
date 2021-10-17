@@ -1,11 +1,17 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"net/rpc"
-	"ppd/t2/internal/calc"
+	"os"
+	"ppd/t2/internal/admin"
+	"strconv"
+	"strings"
 )
+
+/*Processo Caixa Automático: Solicita depósito, retirada e consulta de saldo em conta existente. As duas primeiras devem ser operações garantidamente não-idempotentes (semântica de execução exactely once) mesmo que ocorra algum erro na confirmação da operação (simular com injeção de falhas).*/
 
 func main() {
 	/*
@@ -20,39 +26,61 @@ func main() {
 	}
 
 	//Variavel para receber os resultados
-	var reply float64
-	//Estrutura para enviar os numeros
-	args := calc.Args{A: 3, B: 4}
+	var reply string
+	var holder string
+	var agency string
+	var accountNumber int
+	var money float64
 
-	/*
-	   Call chama um metodo atrves da conexao estabelecida
-	   anteriormente. Os parametros devem ser:
-	   -Metodo a ser chamado no servidor no formato 'Tipo.Nome'.
-	   Este parametro deve ser uma string
-	   -Primeiro argumento do metodo
-	   -Segundo argumento do metodo(ponteiro para receber a resposta)
-	*/
-	err = c.Call("Arith.Mult", args, &reply)
-	if err != nil {
-		log.Fatal("Arith error: ", err)
-	}
-	fmt.Printf("Arith: %f*%f=%f\n", args.A, args.B, reply)
+	//Buffer para ler do terminal
+	reader := bufio.NewReader(os.Stdin)
 
-	err = c.Call("Arith.Div", args, &reply)
-	if err != nil {
-		log.Fatal("Arith error: ", err)
-	}
-	fmt.Printf("Arith: %f/%f=%f\n", args.A, args.B, reply)
+	for {
+		//Leitura de uma linha do terminal
+		text, e := reader.ReadString('\n')
+		if e != nil {
+			log.Fatal(e)
+		}
+		text = strings.Replace(text, "\r\n", "", -1) //Windows
+		//text = strings.Replace(text, "\n", "", -1) //Unix
 
-	err = c.Call("Arith.Sum", args, &reply)
-	if err != nil {
-		log.Fatal("Arith error: ", err)
-	}
-	fmt.Printf("Arith: %f+%f=%f\n", args.A, args.B, reply)
+		//Separa a linha pelos espacos em branco
+		input := strings.Split(text, " ")
 
-	err = c.Call("Arith.Sub", args, &reply)
-	if err != nil {
-		log.Fatal("Arith error: ", err)
+		//Verify the operation
+		if input[0] == "Open" {
+			holder = input[1]
+			agency = "0001"
+			accountNumber = 1111 //TO DO: get position
+			money = 0.0
+		} else {
+			a, e1 := strconv.ParseInt(input[1], 10, 64)
+			if e1 != nil {
+				log.Fatal(e1)
+			}
+			accountNumber = int(a)
+			if input[0] == "Sack" {
+				b, e2 := strconv.ParseFloat(input[2], 64)
+				if e2 != nil {
+					log.Fatal(e2)
+				}
+				agency = input[2]
+				money = b
+			}
+		}
+
+		//Cria a struct para enviar para o servidor
+		args := admin.Account{
+			Holder:        holder,
+			Agency:        agency,
+			AccountNumber: accountNumber,
+			Money:         money,
+		}
+
+		err = c.Call("Bank."+input[0], args, &reply)
+		if err != nil {
+			log.Fatal("Bank error: ", err)
+		}
+		fmt.Printf("Bank: %f-%f=%f\n", reply)
 	}
-	fmt.Printf("Arith: %f-%f=%f\n", args.A, args.B, reply)
 }
