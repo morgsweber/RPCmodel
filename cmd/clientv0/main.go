@@ -46,12 +46,14 @@ func main() {
 	}
 	fmt.Printf("Bank:\n%s\n\n", reply)
 
+	// Try close an accont that don't exist
 	err = c.Call("Bank.Close", acc, &reply)
 	if err != nil {
 		log.Fatal("Bank error: ", err)
 	}
 	fmt.Printf("Bank:\n%s\n\n", reply)
 
+	// Try authenticate an accont that don't exist
 	err = c.Call("Bank.Authenticate", acc, &reply)
 	if err != nil {
 		log.Fatal("Bank error: ", err)
@@ -62,7 +64,7 @@ func main() {
 		Holder:        "Cesar de Rose",
 		Agency:        "0001",
 		AccountNumber: 1,
-		Money:         50,
+		Money:         50, // value
 	}
 
 	err = c.Call("Bank.Sack", acc, &reply)

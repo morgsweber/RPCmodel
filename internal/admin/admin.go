@@ -95,7 +95,7 @@ func (bank *Bank) Sack(A Account, reply *string) error {
 Deposit:
 	Deposit some value in account A, receiving a account where Money is the value to deposit.
 */
-func (bank *Bank) Deposit(A Account, reply *float64) error {
+func (bank *Bank) Deposit(A Account, reply *string) error {
 	bank.memory[A.AccountNumber].Money = bank.memory[A.AccountNumber].Money + A.Money
 	//*reply = bank.memory[A.AccountNumber].Money
 	return nil

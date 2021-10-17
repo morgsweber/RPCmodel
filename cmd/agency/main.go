@@ -1,9 +1,14 @@
 package main
 
 import (
-	"fmt" // implements formatted I/O with functions analogous to C's printf and scanf.
+	"bufio"
+	"fmt"
 	"log"
-	"net/rpc" // remote procedure call
+	"net/rpc"
+	"os"
+	"strconv"
+	"strings"
+
 	"ppd/t2/internal/admin"
 )
 
@@ -26,33 +31,54 @@ func main() {
 	//Variavel para receber os resultados
 	var reply string
 
-	holder := "Cesar de Rose"
-	//Estrutura para enviar os numeros
-	acc := admin.Account{
-		Holder:        "Tester test",
-		Agency:        "0001",
-		AccountNumber: 1,
-		Money:         0,
-	}
+	//Buffer para ler do terminal
+	reader := bufio.NewReader(os.Stdin)
 
-	/*
-	   Call chama um metodo atrves da conexao estabelecida
-	   anteriormente. Os parametros devem ser:
-	   -Metodo a ser chamado no servidor no formato 'Tipo.Nome'.
-	   Este parametro deve ser uma string
-	   -Primeiro argumento do metodo
-	   -Segundo argumento do metodo(ponteiro para receber a resposta)
-	*/
-	err = c.Call("Bank.Open", holder, &reply)
-	if err != nil {
-		log.Fatal("Bank error: ", err)
-	}
-	fmt.Printf("Bank:\n%s\n", reply)
+	for {
+		//Leitura de uma linha do terminal
+		text, e := reader.ReadString('\n')
+		if e != nil {
+			log.Fatal(e)
+		}
+		text = strings.Replace(text, "\r\n", "", -1) //Windows
+		//text = strings.Replace(text, "\n", "", -1) //Unix
 
-	err = c.Call("Bank.Close", acc, &reply)
-	if err != nil {
-		log.Fatal("Bank error: ", err)
+		//Separa a linha pelos espacos em branco
+		input := strings.Split(text, " ") // Mult 4 2 > [Mult, 4, 2]
+		// Open <> <>
+		// Deposit CesardeRose 0001 1 100
+
+		//Converte string para float
+		a, e1 := strconv.ParseFloat(input[1], 64)
+		if e1 != nil {
+			log.Fatal(e1)
+		}
+		b, e2 := strconv.ParseFloat(input[2], 64)
+		if e2 != nil {
+			log.Fatal(e2)
+		}
+
+		//Cria a struct para enviar para o servidor
+		args := admin.Account{
+			Holder:        a, // string
+			Agency:        b, // string
+			AccountNumber: c, // int
+			Money:         d, // float
+		}
+
+		/*
+		   Call chama um metodo atrves da conexao estabelecida
+		   anteriormente. Os parametros devem ser:
+		   -Metodo a ser chamado no servidor no formato 'Tipo.Nome'.
+		   Este parametro deve ser uma string
+		   -Primeiro argumento do metodo
+		   -Segundo argumento do metodo(ponteiro para receber a resposta)
+		*/
+		err = c.Call("Bank."+input[0], args, &reply)
+		if err != nil {
+			log.Fatal("Bank error: ", err)
+		}
+		fmt.Printf("Result = %f\n", reply)
 	}
-	fmt.Printf("Bank:\n%s\n", reply)
 
 }
