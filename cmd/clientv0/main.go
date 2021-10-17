@@ -21,6 +21,7 @@ func main() {
 
 	//Variavel para receber os resultados
 	var reply string
+	
 	holder := "Cesar de Rose"
 	//Estrutura para enviar os numeros
 	acc := admin.Account{

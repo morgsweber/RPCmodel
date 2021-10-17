@@ -64,14 +64,37 @@ func (bank *Bank) Close(A *Account, reply *string) error {
 	Authenticate:
 	Authenticates that accounts already exist, so will search in the memory.
 */
+func (bank *Bank) Authenticate(A Account, reply *string) error {
+	*reply = "This is a invalid account"
+	for i := 0; i < len(bank.memory); i++ {
+		if A.Holder == bank.memory[A.AccountNumber].Holder{
+			if A.Agency == bank.memory[A.AccountNumber].Agency{
+				if A.AccountNumber == bank.memory[A.AccountNumber].AccountNumber{
+					*reply = "This is a valid account"
+				}
+			}
+		}
+	}
+	return nil
+}
 
-/*
+// sack some value in account A if have this value
+func (bank *Bank) Sack(number int, sack float64, reply *string) error {
+	if sack < bank.memory[number].Money{
+		bank.memory[number].Money = bank.memory[number].Money - sack
+		*reply = "Success"
+	} else {
+		*reply = "Insufficient funds"
+	}
+	return nil
+}
+
 // deposit some value in account A
-func (bank *Bank) Deposit(A *Account, deposit float64, reply float64) error {
+func (bank *Bank) Deposit(A *Account, deposit float64, reply *float64) error {
 	A.Money = A.Money + deposit
-	//*reply = A.Money
+	*reply = A.Money
 	return nil
 
 }
-*/
+
 
