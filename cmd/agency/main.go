@@ -48,14 +48,12 @@ func main() {
 
 		holder = strings.TrimSpace(input[1])
 		//Verify the operation
-		//<string holder> <Number account> <Agency> <Value>
 		if strings.TrimSpace(input[0]) == "Open" {
 			agency = "0001"
 			accountNumber = 0
 			money = 0.0
 		} else {
 			a, e1 := strconv.ParseInt(input[2], 10, 64)
-
 			if e1 != nil {
 				log.Fatal(e1)
 			}
@@ -86,5 +84,4 @@ func main() {
 		}
 		fmt.Printf("Result = %s\n", reply)
 	}
-
 }

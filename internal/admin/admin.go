@@ -14,7 +14,6 @@ type Account struct {
 	AccountNumber int
 	Money         float64
 }
-
 type Bank struct {
 	memory [100]Account
 }

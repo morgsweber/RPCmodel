@@ -42,7 +42,6 @@ func main() {
 			log.Fatal(e)
 		}
 		text = strings.Replace(text, "\r\n", "", -1) //Windows
-		//text = strings.Replace(text, "\n", "", -1) //Unix
 
 		//Separa a linha pelos espacos em branco
 		input := strings.Split(text, " ")
@@ -81,6 +80,5 @@ func main() {
 			fmt.Printf("Bank: %s\n", reply)
 
 		}
-
 	}
 }

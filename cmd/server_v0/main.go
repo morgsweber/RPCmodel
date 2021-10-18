@@ -5,12 +5,10 @@ import (
 	"net"
 	"net/http"
 	"net/rpc"
-
 	"ppd/t2/internal/admin"
 )
 
 func main() {
-	//Inicializar um objeto do tipo dos metodos exportaveis
 
 	/*
 		Para que seja possivel acessar os metodos do objeto
@@ -18,7 +16,6 @@ func main() {
 		O registro gera um erro, sendo nil o caso em que o registro
 		foi um sucesso.
 	*/
-
 	bank := new(admin.Bank)
 
 	err := rpc.Register(bank)
