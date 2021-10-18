@@ -34,6 +34,7 @@ Open:
 */
 func (bank *Bank) Open(A Account, reply *string) error {
 	bank.memory[pos] = A
+	bank.memory[pos].AccountNumber = pos
 	bank.memory[pos].Money = 0
 	*reply = "Holder: " + A.Holder + "\nAgency: " + A.Agency + "\nAccountNumber " + strconv.Itoa(pos)
 	pos++
@@ -82,12 +83,18 @@ Sack:
 	Sack some value in account A if have this value, receiving a account where Money is the value to sack.
 */
 func (bank *Bank) Sack(A Account, reply *string) error {
-	if A.Money < bank.memory[A.AccountNumber].Money {
-		bank.memory[A.AccountNumber].Money = bank.memory[A.AccountNumber].Money - A.Money
+	if A.Holder == bank.memory[A.AccountNumber].Holder {
+		if A.Agency == bank.memory[A.AccountNumber].Agency {
+			if A.AccountNumber == bank.memory[A.AccountNumber].AccountNumber {
+				if A.Money <= bank.memory[A.AccountNumber].Money {
+					bank.memory[A.AccountNumber].Money = bank.memory[A.AccountNumber].Money - A.Money
 
-		*reply = "Success, now you have: " + fmt.Sprint(bank.memory[A.AccountNumber].Money)
-	} else {
-		*reply = "Insufficient funds"
+					*reply = "Success, now you have: " + fmt.Sprint(bank.memory[A.AccountNumber].Money)
+				} else {
+					*reply = "Insufficient funds"
+				}
+			}
+		}
 	}
 	return nil
 }
@@ -97,8 +104,14 @@ Deposit:
 	Deposit some value in account A, receiving a account where Money is the value to deposit.
 */
 func (bank *Bank) Deposit(A Account, reply *string) error {
-	bank.memory[A.AccountNumber].Money = bank.memory[A.AccountNumber].Money + A.Money
-	*reply = "Sucesso, now you have " + fmt.Sprint(bank.memory[A.AccountNumber].Money)
+	if A.Holder == bank.memory[A.AccountNumber].Holder {
+		if A.Agency == bank.memory[A.AccountNumber].Agency {
+			if A.AccountNumber == bank.memory[A.AccountNumber].AccountNumber {
+				bank.memory[A.AccountNumber].Money = bank.memory[A.AccountNumber].Money + A.Money
+				*reply = "Sucesso, now you have " + fmt.Sprint(bank.memory[A.AccountNumber].Money)
+			}
+		}
+	}
 	return nil
 }
 

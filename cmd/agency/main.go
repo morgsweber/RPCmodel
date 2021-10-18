@@ -46,12 +46,12 @@ func main() {
 		text = strings.Replace(text, "\r\n", "", -1)
 		input := strings.Split(text, " ")
 
-		holder = input[1]
+		holder = strings.TrimSpace(input[1])
 		//Verify the operation
 		//<string holder> <Number account> <Agency> <Value>
-		if input[0] == "Open" {
+		if strings.TrimSpace(input[0]) == "Open" {
 			agency = "0001"
-			accountNumber = 1111 //TO DO: get position
+			accountNumber = 0
 			money = 0.0
 		} else {
 			a, e1 := strconv.ParseInt(input[2], 10, 64)
@@ -60,9 +60,9 @@ func main() {
 				log.Fatal(e1)
 			}
 			accountNumber = int(a)
-			agency = input[3]
+			agency = strings.TrimSpace(input[3])
 
-			if input[0] != "Authenticate" && input[0] != "Close" {
+			if strings.TrimSpace(input[0]) != "Authenticate" && strings.TrimSpace(input[0]) != "Close" {
 				b, e2 := strconv.ParseFloat(input[4], 64)
 				if e2 != nil {
 					log.Fatal(e2)

@@ -49,7 +49,7 @@ func main() {
 
 		//Verify the operation
 		if input[0] == "Open" || input[0] == "Athenticate" {
-			reply = "Invalid operation"
+			fmt.Printf("Invalid operation")
 		} else {
 			holder = input[1]
 			a, e1 := strconv.ParseInt(input[2], 10, 64)
@@ -65,20 +65,22 @@ func main() {
 				}
 				money = b
 			}
+
+			//Cria a struct para enviar para o servidor
+			args := admin.Account{
+				Holder:        holder,
+				Agency:        agency,
+				AccountNumber: accountNumber,
+				Money:         money,
+			}
+
+			err = c.Call("Bank."+input[0], args, &reply)
+			if err != nil {
+				log.Fatal("Bank error: ", err)
+			}
+			fmt.Printf("Bank: %s\n", reply)
+
 		}
 
-		//Cria a struct para enviar para o servidor
-		args := admin.Account{
-			Holder:        holder,
-			Agency:        agency,
-			AccountNumber: accountNumber,
-			Money:         money,
-		}
-
-		err = c.Call("Bank."+input[0], args, &reply)
-		if err != nil {
-			log.Fatal("Bank error: ", err)
-		}
-		fmt.Printf("Bank: %s\n", reply)
 	}
 }
