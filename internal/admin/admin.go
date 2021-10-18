@@ -1,5 +1,10 @@
 package admin
 
+import (
+	"fmt"
+	"strconv"
+)
+
 /**
 Processo Administração: realiza abertura e fechamento de contas (para agências), autentica que contas já existem (tanto para agências e caixas automáticos) e também executa as operações de manipulação destas contas (saques e depósitos). Deve garantir semântica de execução exactely once para operações que sejam não-idempotentes;*/
 
@@ -21,29 +26,17 @@ About all methods:
 	Return an error. If something return besides nil the client will receive just the error, without the reply pointer
 */
 
-//
 /**
 Open:
 	Is to open some account and to do this method just need receive the holder, start with money equal zero and the account number and agency depend of other thing.
 
 	For know is with a generic agency.
 */
-/*func (bank *Bank) Open(holder string, reply *string) error {
-	A := Account{
-		Holder:        holder,
-		Agency:        "0001",
-		AccountNumber: pos,
-		Money:         0,
-	}
-	bank.memory[pos] = A
-	*reply = "Holder: " + A.Holder + "\nAgency: " + A.Agency + "\nAccountNumber " + string(pos) // add money here in the end
-
-	return nil
-}*/
-
 func (bank *Bank) Open(A Account, reply *string) error {
 	bank.memory[pos] = A
-	*reply = "Holder: " + A.Holder + "\nAgency: " + A.Agency + "\nAccountNumber " + string(pos)
+	bank.memory[pos].Money = 0
+	*reply = "Holder: " + A.Holder + "\nAgency: " + A.Agency + "\nAccountNumber " + strconv.Itoa(pos)
+	pos++
 
 	return nil
 }
@@ -91,7 +84,8 @@ Sack:
 func (bank *Bank) Sack(A Account, reply *string) error {
 	if A.Money < bank.memory[A.AccountNumber].Money {
 		bank.memory[A.AccountNumber].Money = bank.memory[A.AccountNumber].Money - A.Money
-		*reply = "Success"
+
+		*reply = "Success, now you have: " + fmt.Sprint(bank.memory[A.AccountNumber].Money)
 	} else {
 		*reply = "Insufficient funds"
 	}
@@ -104,6 +98,15 @@ Deposit:
 */
 func (bank *Bank) Deposit(A Account, reply *string) error {
 	bank.memory[A.AccountNumber].Money = bank.memory[A.AccountNumber].Money + A.Money
-	//*reply = bank.memory[A.AccountNumber].Money
+	*reply = "Sucesso, now you have " + fmt.Sprint(bank.memory[A.AccountNumber].Money)
+	return nil
+}
+
+/**
+Consult:
+	Consult some value in account A, receiving a account where Money is the value to consult.
+*/
+func (bank *Bank) Consult(A Account, reply *string) error {
+	*reply = fmt.Sprint(bank.memory[A.AccountNumber].Money)
 	return nil
 }
